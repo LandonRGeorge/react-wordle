@@ -14,11 +14,8 @@ function Row({guess, answer, hasWon}) {
     )
   }
 
-  if (guess === answer) {
-    hasWon(true)
-  }
-
   const checked = checkGuess(guess, answer)
+
   return (
     <p className="guess">
       {checked.map((v, i)=> (
@@ -34,7 +31,7 @@ function Guess({guesses, answer, hasWon}) {
       {Array(NUM_OF_GUESSES_ALLOWED).fill(0).map((_, i) => i).map(i => {
         let guess = guesses[i];
         return (
-          <Row guess={guess} key={i} answer={answer} hasWon={hasWon}/>
+          <Row guess={guess} key={i} answer={answer}/>
           )
         })}
       </div>

@@ -56,25 +56,29 @@ function GuessForm({addGuess}) {
 function Game() {
 
   const [guesses, setGuesses] = React.useState([])
-  const [won, setWon] = React.useState()
+  // running | won | lost
+  const [status, setStatus] = React.useState("running")
 
   function addGuess(guess) {
     setGuesses([...guesses, guess])
+    if (status === "running" && guesses.length >= NUM_OF_GUESSES_ALLOWED) {
+      setStatus("lost")
+    }
+    if (guess === answer) {
+      setStatus("won")
+    }
   }
 
 
-  if (won === undefined && guesses.length >= NUM_OF_GUESSES_ALLOWED) {
-    setWon(false)
-  }
 
   const display = () => {
-    if (won === true) return <Happy nbrGuesses={guesses.length}/>
-    if (won === false) return <Sad answer={answer}/>
+    if (status === "won") return <Happy nbrGuesses={guesses.length}/>
+    if (status === "lost") return <Sad answer={answer}/>
     return
   }
   return (
     <>
-      <Guess guesses={guesses} answer={answer} hasWon={(resp) => setWon(resp)}/>
+      <Guess guesses={guesses} answer={answer}/>
       <GuessForm addGuess={addGuess} />
       {display()}
     </>
