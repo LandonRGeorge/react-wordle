@@ -60,11 +60,12 @@ function Game() {
   const [status, setStatus] = React.useState("running")
 
   function addGuess(guess) {
-    setGuesses([...guesses, guess])
-    if (status === "running" && guesses.length >= NUM_OF_GUESSES_ALLOWED) {
+    const allGuesses = [...guesses, guess]
+    setGuesses(allGuesses)
+    if (status === "running" && allGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
       setStatus("lost")
     }
-    if (guess === answer) {
+    if (status === "running" && guess === answer) {
       setStatus("won")
     }
   }
