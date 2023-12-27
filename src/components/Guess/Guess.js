@@ -2,8 +2,7 @@ import React from 'react';
 import {NUM_OF_GUESSES_ALLOWED} from "../../constants";
 import {checkGuess} from "../../game-helpers";
 
-function Row({guess, answer, hasWon}) {
-  console.log(answer)
+function Row({guess, answer}) {
   if (guess===undefined) {
     return (
       <p className="guess">

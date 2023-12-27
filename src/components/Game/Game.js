@@ -11,28 +11,31 @@ const answer = sample(WORDS);
 console.info({answer});
 
 function Happy({nbrGuesses}) {
-  return (
-    <div className="happy banner">
-      <p>
-        <strong>Congratulations!</strong> Got it in
-        {' '}
-        <strong>{nbrGuesses} guesses</strong>.
-      </p>
-    </div>
-  )
+  return <Banner status="happy">
+    <p>
+      <strong>Congratulations!</strong> Got it in
+      {' '}
+      <strong>{nbrGuesses} guesses</strong>.
+    </p>
+  </Banner>
 }
 
 function Sad({answer}) {
+  return <Banner status="sad">
+    <p>Sorry, the correct answer is <strong>{answer}</strong>.</p>
+  </Banner>
+}
+
+function Banner({status, children}) {
   return (
-    <div className="sad banner">
-      <p>Sorry, the correct answer is <strong>{answer}</strong>.</p>
+    <div className={`banner ${status}`}>
+      {children}
     </div>
   )
 }
 
 function GuessForm({addGuess}) {
   const [guess, setGuess] = React.useState("")
-  console.log(guess)
 
   const formHandler = e => {
     e.preventDefault();
@@ -70,18 +73,12 @@ function Game() {
     }
   }
 
-
-
-  const display = () => {
-    if (status === "won") return <Happy nbrGuesses={guesses.length}/>
-    if (status === "lost") return <Sad answer={answer}/>
-    return
-  }
   return (
     <>
       <Guess guesses={guesses} answer={answer}/>
-      <GuessForm addGuess={addGuess} />
-      {display()}
+      <GuessForm addGuess={addGuess}/>
+      {status === "won" && <Happy nbrGuesses={guesses.length}/>}
+      {status === "lost" && <Sad answer={answer}/>}
     </>
   );
 }
