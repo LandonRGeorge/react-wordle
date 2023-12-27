@@ -30,21 +30,38 @@ function Sad({answer}) {
   )
 }
 
-function Game() {
+function GuessForm({addGuess}) {
   const [guess, setGuess] = React.useState("")
-  const [guesses, setGuesses] = React.useState([])
-  const [won, setWon] = React.useState()
+  console.log(guess)
 
   const formHandler = e => {
     e.preventDefault();
-
-    const newGuess = {
-      id: Math.random(),
-      value: guess,
-    }
-    setGuesses([...guesses, newGuess])
-    setGuess("");
+    addGuess(guess)
+    setGuess("")
   }
+
+  return <form className="guess-input-wrapper"
+               onSubmit={formHandler}
+  >
+    <label htmlFor="guess-input">Enter guess:</label>
+    <input id="guess-input" type="text"
+           value={guess}
+           minLength="5"
+           maxLength="5"
+           onChange={e => setGuess(e.target.value.toUpperCase())}
+    />
+  </form>;
+}
+
+function Game() {
+
+  const [guesses, setGuesses] = React.useState([])
+  const [won, setWon] = React.useState()
+
+  function addGuess(guess) {
+    setGuesses([...guesses, guess])
+  }
+
 
   if (won === undefined && guesses.length >= NUM_OF_GUESSES_ALLOWED) {
     setWon(false)
@@ -58,17 +75,7 @@ function Game() {
   return (
     <>
       <Guess guesses={guesses} answer={answer} hasWon={(resp) => setWon(resp)}/>
-      <form className="guess-input-wrapper"
-            onSubmit={formHandler}
-      >
-        <label htmlFor="guess-input">Enter guess:</label>
-        <input id="guess-input" type="text"
-               value={guess}
-               minLength="5"
-               maxLength="5"
-               onChange={e => setGuess(e.target.value.toUpperCase())}
-        />
-      </form>
+      <GuessForm addGuess={addGuess} />
       {display()}
     </>
   );

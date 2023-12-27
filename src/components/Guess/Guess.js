@@ -14,11 +14,11 @@ function Row({guess, answer, hasWon}) {
     )
   }
 
-  if (guess.value === answer) {
+  if (guess === answer) {
     hasWon(true)
   }
 
-  const checked = checkGuess(guess.value, answer)
+  const checked = checkGuess(guess, answer)
   return (
     <p className="guess">
       {checked.map((v, i)=> (
